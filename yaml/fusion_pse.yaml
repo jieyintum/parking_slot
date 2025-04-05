@@ -1,0 +1,43 @@
+fusion_pse_node:
+  ros__parameters:
+    frontAxelForParallel: 0.5
+    rearAxelForParallel: 0.5
+  
+    frontAxelForVertical: 3.0
+    rearAxelForVertical: -1.5
+
+    visuMarkerScale: 0.02
+
+    targetSlotId: 20
+
+    vehicleModel: "EP35"
+
+    showMarkerScale: 0.04
+    
+    debugSlotId: 20
+    debugSlotId2: 21
+
+    verticalAsRectangleSwitch: false
+
+    slotSwitch: true
+    speedBumpSwitch: true
+    arrowSwitch: true
+    laneSwitch: false
+    ZebraSwitch: true
+    wallPillarSwitch: true
+
+    maxBasePointUpdateCost: 3.2
+    minBasePointUpdateCost: 0.04
+    maxBufferEP35: 0.12
+    maxBufferES33: 0.16
+    addBufferXThreshold: 3.0
+    depthCornerRatio: 1.0
+    addBuffer: true
+    baseCostRatio: 4.0
+    showOpenLine: false
+
+    covErrorRatio: 0.5
+
+    isUSSDeleteOpen: true
+
+    isDepthsKeepWork: true
