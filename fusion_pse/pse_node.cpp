@@ -28,14 +28,14 @@ void PseNode::Stop()
 void PseNode::Register()
 {
     auto client_node = std::make_shared<Fusion::PSE::MinimalSubscriber>();
-    auto client = std::make_shared<ParameterService::Client>(client_node, "/vehicle_parameters"); //service name要与server端保持一致
-    client->GetParameter(); //调用此接口时，线程会阻塞等待，直到取到参数
+    // auto client = std::make_shared<ParameterService::Client>(client_node, "/vehicle_parameters"); //service name要与server端保持一致
+    // client->GetParameter(); //调用此接口时，线程会阻塞等待，直到取到参数
 
-    client->ParseParameter("vehicleLength", vehicleParams.g_vehicleLength);
-    client->ParseParameter("vehicleWidth", vehicleParams.g_vehicleWidth);
-    client->ParseParameter("rearCenter2RearCar", vehicleParams.g_rearAxleToVehicleRear);
-    client->ParseParameter("rearAxleCenter", vehicleParams.g_vehicleOrignal);
-    client->ParseParameter("vehicleModel", vehicleModel);
+    // client->ParseParameter("vehicleLength", vehicleParams.g_vehicleLength);
+    // client->ParseParameter("vehicleWidth", vehicleParams.g_vehicleWidth);
+    // client->ParseParameter("rearCenter2RearCar", vehicleParams.g_rearAxleToVehicleRear);
+    // client->ParseParameter("rearAxleCenter", vehicleParams.g_vehicleOrignal);
+    // client->ParseParameter("vehicleModel", vehicleModel);
 
     std::cout<<"vehicleParams.g_vehicleLength: "<<vehicleParams.g_vehicleLength<<"\n";
     std::cout<<"vehicleParams.g_vehicleWidth: "<<vehicleParams.g_vehicleWidth<<"\n";

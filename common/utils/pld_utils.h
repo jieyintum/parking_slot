@@ -35,11 +35,11 @@ struct veh_params {
     int g_resolutionY_i = 512; //512 pixles
 
 
-    float g_vehicleLength = 0.0f;
-    float g_vehicleWidth = 0.0f;
-    float g_rearAxleToVehicleRear = 0.0f;
+    float g_vehicleLength = 5.0f;
+    float g_vehicleWidth = 2.0f;
+    float g_rearAxleToVehicleRear = 0.8f;
 
-    std::vector<uint16_t> g_vehicleOrignal;
+    std::vector<uint16_t> g_vehicleOrignal = {256, 280};
 
     float g_rearAxleToVehicleFront = 0.0f;
     float g_vehicleRangeBufferX = 0.5f;

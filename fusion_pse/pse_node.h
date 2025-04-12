@@ -18,7 +18,7 @@
 
 #include "speed_bump_fusion/speed_bump_fusion.h"
 
-#include "parameter_service/parameter_client.hpp"
+//#include "parameter_service/parameter_client.hpp"
 #include "lane_fusion/lane_fusion.h"
 
 namespace Fusion {
