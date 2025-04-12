@@ -8,24 +8,26 @@
 #include "vision_freespace.h"
 #include "fusion_slot.h"
 
-namespace Fusion {
-namespace PSE {
-struct PldFrame : public FrameBase {
-    PerceptSlot::Ptr pld_;
-    VisionFreespace::Ptr vsFs_ = nullptr;
-    visionObjVector::Ptr vsObject_ = nullptr;
-    UssMsg::Ptr uss_;
-    Odometry ussPoseOb;
-    FSStruct::Ptr fs_;
+namespace Fusion
+{
+    namespace PSE
+    {
+        struct PldFrame : public FrameBase
+        {
+            PerceptSlot::Ptr pld_;
+            VisionFreespace::Ptr vsFs_ = nullptr;
+            visionObjVector::Ptr vsObject_ = nullptr;
+            UssMsg::Ptr uss_;
+            Odometry ussPoseOb;
+            FSStruct::Ptr fs_;
 
-    bool isParkSystemWork;
-    bool isLastFrameSystemWork;
+            bool isParkSystemWork;
+            bool isLastFrameSystemWork;
 
-
-    std::vector<FusionSlot::Ptr> detectSlots_;
-    std::vector<FusionSlot::Ptr> outputSlots_;
-};
-}
+            std::vector<FusionSlot::Ptr> detectSlots_;
+            std::vector<FusionSlot::Ptr> outputSlots_;
+        };
+    }
 }
 
 #endif

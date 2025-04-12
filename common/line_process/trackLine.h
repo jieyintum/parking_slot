@@ -6,45 +6,41 @@
 namespace Fusion
 {
 
-class CTrackLine : public CLineModel
-{
-public:
-
-enum OpenLineStatus {
-    unknown = 0,
-    occupiedByWheelStop = 1, //highest occupied prioriy
-    occupiedByNeighborSlot = 2, //middle occupied prioriy
-    occupiedByFs = 3,  //lowest occupied priority
-    oppositeOccupiedByNeighborSlot = 4
-};
-
-
-    using Ptr = std::shared_ptr<CTrackLine>;
-    
-    CTrackLine() = default;
-    ~CTrackLine() = default;
-
-    CTrackLine(const Eigen::Vector3d startPoint, const Eigen::Vector3d endPoint):matchedLine(nullptr)
+    class CTrackLine : public CLineModel
     {
-        initWithTwoWorldPoints(startPoint, endPoint);
-    }
+    public:
+        enum OpenLineStatus
+        {
+            unknown = 0,
+            occupiedByWheelStop = 1,    // highest occupied prioriy
+            occupiedByNeighborSlot = 2, // middle occupied prioriy
+            occupiedByFs = 3,           // lowest occupied priority
+            oppositeOccupiedByNeighborSlot = 4
+        };
 
+        using Ptr = std::shared_ptr<CTrackLine>;
 
-    inline void getVerticalLine(const CTrackLine::Ptr verticalLine)
-    {
-        Eigen::Vector3d veticalUV = Eigen::Vector3d(-getDefaultUnitVec()[1], getDefaultUnitVec()[0], 0.0f);
-        Eigen::Vector3d verticalEnd = getStartPoint() + veticalUV;
+        CTrackLine() = default;
+        ~CTrackLine() = default;
 
-        verticalLine->initWithTwoWorldPoints(getStartPoint(), verticalEnd);
-    }
+        CTrackLine(const Eigen::Vector3d startPoint, const Eigen::Vector3d endPoint) : matchedLine(nullptr)
+        {
+            initWithTwoWorldPoints(startPoint, endPoint);
+        }
 
+        inline void getVerticalLine(const CTrackLine::Ptr verticalLine)
+        {
+            Eigen::Vector3d veticalUV = Eigen::Vector3d(-getDefaultUnitVec()[1], getDefaultUnitVec()[0], 0.0f);
+            Eigen::Vector3d verticalEnd = getStartPoint() + veticalUV;
 
+            verticalLine->initWithTwoWorldPoints(getStartPoint(), verticalEnd);
+        }
 
-    CTrackLine::Ptr matchedLine;
-    OpenLineStatus couldBeingAsOpenLine = OpenLineStatus::unknown;
+        CTrackLine::Ptr matchedLine;
+        OpenLineStatus couldBeingAsOpenLine = OpenLineStatus::unknown;
 
-    float lastFrameLength = 0.0f;
-};
+        float lastFrameLength = 0.0f;
+    };
 
 }
 

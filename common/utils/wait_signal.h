@@ -3,27 +3,29 @@
 
 #include <condition_variable>
 #include <mutex>
-namespace Fusion {
-class WaitSignal {
-public:
-    WaitSignal() = default;
-    ~WaitSignal() = default;
-
-    void Wait()
+namespace Fusion
+{
+    class WaitSignal
     {
-        std::unique_lock<std::mutex> lk(cvMutex_);
-        cv_.wait(lk);
-    }
+    public:
+        WaitSignal() = default;
+        ~WaitSignal() = default;
 
-    void Notify()
-    {
-        cv_.notify_all();
-    }
+        void Wait()
+        {
+            std::unique_lock<std::mutex> lk(cvMutex_);
+            cv_.wait(lk);
+        }
 
-private:
-    std::condition_variable cv_;
-    std::mutex cvMutex_;
-};
+        void Notify()
+        {
+            cv_.notify_all();
+        }
+
+    private:
+        std::condition_variable cv_;
+        std::mutex cvMutex_;
+    };
 }
 
 #endif

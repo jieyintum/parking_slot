@@ -18,173 +18,169 @@
 
 #include "speed_bump_fusion/speed_bump_fusion.h"
 
-//#include "parameter_service/parameter_client.hpp"
+// #include "parameter_service/parameter_client.hpp"
 #include "lane_fusion/lane_fusion.h"
 
-namespace Fusion {
-namespace PSE {
-
-
-class MinimalSubscriber : public rclcpp::Node
+namespace Fusion
 {
-public:
-  MinimalSubscriber() : Node("minimal_subscriber") {}
-};
-
-
-
-class PseNode : public rclcpp::Node {
-public:
-    PseNode() : Node("fusion_pse_node"), lastPldTime_(this->get_clock()->now()), lastOdomTime_(this->get_clock()->now())
+    namespace PSE
     {
-        Start();
-    }
-    ~PseNode()
-    {
-        Stop();
-    }
 
-private:
-    void Start();
+        class MinimalSubscriber : public rclcpp::Node
+        {
+        public:
+            MinimalSubscriber() : Node("minimal_subscriber") {}
+        };
 
-    void Stop();
+        class PseNode : public rclcpp::Node
+        {
+        public:
+            PseNode() : Node("fusion_pse_node"), lastPldTime_(this->get_clock()->now()), lastOdomTime_(this->get_clock()->now())
+            {
+                Start();
+            }
+            ~PseNode()
+            {
+                Stop();
+            }
 
-    void Register();
+        private:
+            void Start();
 
-    void OdomCallBack(const OdometryMsgPtr msgPtr);
+            void Stop();
 
-    void AvpeCallBack(const AvpeMsgPtr msgPtr);
+            void Register();
 
-    void SegCallBack(const AvpeSegArrayMsgPtr msgPtr);
+            void OdomCallBack(const OdometryMsgPtr msgPtr);
 
-    void PldCallBack(const PerceptSlotMsgPtr msgPtr);
+            void AvpeCallBack(const AvpeMsgPtr msgPtr);
 
-    void USSCallBack(const uss_MsgPtr msgPtr);
-    void PrkSmP0010msCallback(const mpc_prk_msgs::msg::ParkingSM2DrivingSM::SharedPtr msgPtr);
+            void SegCallBack(const AvpeSegArrayMsgPtr msgPtr);
 
-    void drDiagnosticCallback(const DiagnosticArrayMsg::SharedPtr msgPtr);
-    void pldTrackingCallBack(const SlotsListMsgPtr msgPtr);
-    void fsCallBack(const FSMsgPtr msgPtr);
+            void PldCallBack(const PerceptSlotMsgPtr msgPtr);
 
+            void USSCallBack(const uss_MsgPtr msgPtr);
+            void PrkSmP0010msCallback(const mpc_prk_msgs::msg::ParkingSM2DrivingSM::SharedPtr msgPtr);
 
-    void PillarAndWallCallBack(const StaiticElementsMsgPtr msgPtr);
-    void Process();
+            void drDiagnosticCallback(const DiagnosticArrayMsg::SharedPtr msgPtr);
+            void pldTrackingCallBack(const SlotsListMsgPtr msgPtr);
+            void fsCallBack(const FSMsgPtr msgPtr);
 
-    void Publish();
+            void PillarAndWallCallBack(const StaiticElementsMsgPtr msgPtr);
+            void Process();
 
-    void PldDiagnostic();
-    void PsfDiagnostic();
+            void Publish();
 
-    void AppendStaticElemMsg(const AvpeArrowFrame& avpeArrowFrame,  StaticElements& staticElems);
-    void AppendStaticElemMsg(const AvpeZebraFrame& avpeZebraFrame,  StaticElements& staticElems);
-    void AppendStaticElemMsg(const AvpeSpeedBumpFrame& avpeSpeedBumpFrame,  StaticElements& staticElems);
+            void PldDiagnostic();
+            void PsfDiagnostic();
 
-    void AppendStaticElemMsg(const AvpeLaneFrame& avpeLaneFrame, StaticElements& staticElems);
+            void AppendStaticElemMsg(const AvpeArrowFrame &avpeArrowFrame, StaticElements &staticElems);
+            void AppendStaticElemMsg(const AvpeZebraFrame &avpeZebraFrame, StaticElements &staticElems);
+            void AppendStaticElemMsg(const AvpeSpeedBumpFrame &avpeSpeedBumpFrame, StaticElements &staticElems);
 
-    void AppendWallPillars(StaticElements& staticElems);
+            void AppendStaticElemMsg(const AvpeLaneFrame &avpeLaneFrame, StaticElements &staticElems);
+
+            void AppendWallPillars(StaticElements &staticElems);
 
 #if DEBUG_MODE
 
-    void ShowDetectPld(const PerceptSlot::Ptr& pldPtr);
+            void ShowDetectPld(const PerceptSlot::Ptr &pldPtr);
 
-    void ShowUSSSlot(const UssMsg::Ptr& ussPtr);
+            void ShowUSSSlot(const UssMsg::Ptr &ussPtr);
 
-    void ShowDetectAvpe(const Avpe::Ptr& avpPtr);
-//    void ShowDetectAvpe(const Avpe::Ptr& avpPtr);
+            void ShowDetectAvpe(const Avpe::Ptr &avpPtr);
+            //    void ShowDetectAvpe(const Avpe::Ptr& avpPtr);
 
-    void ShowDetectAvpe(const AvpeSegArray::Ptr& avpPtr);
+            void ShowDetectAvpe(const AvpeSegArray::Ptr &avpPtr);
 
-    void PushSegMarker(const AvpeSegmentation& avpSeg, const uint16_t id,
-                       visualization_msgs::msg::MarkerArray& markers);
+            void PushSegMarker(const AvpeSegmentation &avpSeg, const uint16_t id,
+                               visualization_msgs::msg::MarkerArray &markers);
 
-    void PushSinglePldMarker(const PLD_DL_Result& slot, const uint16_t id, visualization_msgs::msg::MarkerArray& markers);
+            void PushSinglePldMarker(const PLD_DL_Result &slot, const uint16_t id, visualization_msgs::msg::MarkerArray &markers);
 
-    void PushZebraSegMarker(const AvpeSegmentation& avpSeg, const uint16_t id,
-                            visualization_msgs::msg::MarkerArray& markers);
+            void PushZebraSegMarker(const AvpeSegmentation &avpSeg, const uint16_t id,
+                                    visualization_msgs::msg::MarkerArray &markers);
 
-    void PushSinglePldEdgeMarker(const PLD_DL_Result& slot, const uint16_t id,
-                                 visualization_msgs::msg::MarkerArray& markers);
+            void PushSinglePldEdgeMarker(const PLD_DL_Result &slot, const uint16_t id,
+                                         visualization_msgs::msg::MarkerArray &markers);
 
-    void PushSinglePldBlockMarker(const PLD_DL_Result& slot, const uint16_t id,
-                                  visualization_msgs::msg::MarkerArray& markers);
+            void PushSinglePldBlockMarker(const PLD_DL_Result &slot, const uint16_t id,
+                                          visualization_msgs::msg::MarkerArray &markers);
 
-    void ShowVisionFreespacePoint(const AvpeFreespace::Ptr& avpeMsg, visualization_msgs::msg::MarkerArray& markers);
+            void ShowVisionFreespacePoint(const AvpeFreespace::Ptr &avpeMsg, visualization_msgs::msg::MarkerArray &markers);
 
-    void ShowFusionStaticElements(const StaticElements& elements);
+            void ShowFusionStaticElements(const StaticElements &elements);
 
-    rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr perSlotMarkerPub_;
-    rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr ussPerSlotMarkerPub_;
-    rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr perAvpeMarkerPub_;
-    rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr fusStaticElePub_;
+            rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr perSlotMarkerPub_;
+            rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr ussPerSlotMarkerPub_;
+            rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr perAvpeMarkerPub_;
+            rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr fusStaticElePub_;
 #endif
 
-private:
-    rclcpp::Subscription<OdometryMsg>::SharedPtr subOdom_;
-    rclcpp::Subscription<PerceptSlotMsg>::SharedPtr subPerSlot_;
-    rclcpp::Subscription<uss_msg>::SharedPtr subUSSInfo_;
-    rclcpp::Subscription<AvpeMsg>::SharedPtr subAvpe_;
-    rclcpp::Subscription<AvpeSegArrayMsg>::SharedPtr subAvpeSeg_;
-    rclcpp::Subscription<mpc_prk_msgs::msg::ParkingSM2DrivingSM>::SharedPtr subSmDriving_;
+        private:
+            rclcpp::Subscription<OdometryMsg>::SharedPtr subOdom_;
+            rclcpp::Subscription<PerceptSlotMsg>::SharedPtr subPerSlot_;
+            rclcpp::Subscription<uss_msg>::SharedPtr subUSSInfo_;
+            rclcpp::Subscription<AvpeMsg>::SharedPtr subAvpe_;
+            rclcpp::Subscription<AvpeSegArrayMsg>::SharedPtr subAvpeSeg_;
+            rclcpp::Subscription<mpc_prk_msgs::msg::ParkingSM2DrivingSM>::SharedPtr subSmDriving_;
 
-    rclcpp::Subscription<diagnostic_msgs::msg::DiagnosticArray>::SharedPtr subDrDiagnostic_;
+            rclcpp::Subscription<diagnostic_msgs::msg::DiagnosticArray>::SharedPtr subDrDiagnostic_;
 
-    rclcpp::Subscription<SlotsListMsg>::SharedPtr subPLDTracking_;
+            rclcpp::Subscription<SlotsListMsg>::SharedPtr subPLDTracking_;
 
-    rclcpp::Subscription<FSMsg>::SharedPtr subFS_;
+            rclcpp::Subscription<FSMsg>::SharedPtr subFS_;
 
-    rclcpp::Subscription<StaiticElementsMsg>::SharedPtr subWallPillars_;
+            rclcpp::Subscription<StaiticElementsMsg>::SharedPtr subWallPillars_;
 
-    rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticArray>::SharedPtr pldDtcPub_;
-    
-    rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticArray>::SharedPtr psfDtcPub_;
+            rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticArray>::SharedPtr pldDtcPub_;
 
-    rclcpp::Publisher<StaiticElementsMsg>::SharedPtr pubAvpe_;
-    rclcpp::TimerBase::SharedPtr processTimer_;
-    rclcpp::TimerBase::SharedPtr pubTimer_;
+            rclcpp::Publisher<diagnostic_msgs::msg::DiagnosticArray>::SharedPtr psfDtcPub_;
 
-    FrameManager frameManager_;
-    std::atomic<bool> isParkingMode_;
-    TimeStamp lastPldTime_;
-    TimeStamp lastOdomTime_;
-    diagnostic_msgs::msg::DiagnosticArray pldDiagOut;
+            rclcpp::Publisher<StaiticElementsMsg>::SharedPtr pubAvpe_;
+            rclcpp::TimerBase::SharedPtr processTimer_;
+            rclcpp::TimerBase::SharedPtr pubTimer_;
 
-    uint64_t frameSeq_ = 0U;
+            FrameManager frameManager_;
+            std::atomic<bool> isParkingMode_;
+            TimeStamp lastPldTime_;
+            TimeStamp lastOdomTime_;
+            diagnostic_msgs::msg::DiagnosticArray pldDiagOut;
 
-    PldFusion::Ptr pldProc_;
-    ArrowFusion::Ptr arrowProc_;
-    ZebraFusion::Ptr zebraProc_;
+            uint64_t frameSeq_ = 0U;
 
+            PldFusion::Ptr pldProc_;
+            ArrowFusion::Ptr arrowProc_;
+            ZebraFusion::Ptr zebraProc_;
 
-    TimeStamp lastFSTime_;
-    TimeStamp lastPldTrackingTime_;
-    TimeStamp lastUSSTime_;
-    diagnostic_msgs::msg::DiagnosticArray psfDiagOut;
-    uint64_t psfFrameSeq_ = 0U;
+            TimeStamp lastFSTime_;
+            TimeStamp lastPldTrackingTime_;
+            TimeStamp lastUSSTime_;
+            diagnostic_msgs::msg::DiagnosticArray psfDiagOut;
+            uint64_t psfFrameSeq_ = 0U;
 
-    TimeStamp startTime_;
-    bool isStartTimeSet = false;
+            TimeStamp startTime_;
+            bool isStartTimeSet = false;
 
-    SpeedBumpFusion::Ptr speedBumpProc_;
+            SpeedBumpFusion::Ptr speedBumpProc_;
 
+            LaneFusion::Ptr laneProc_;
+            StaticElements::Ptr newestWallPillars_ = nullptr;
 
-    LaneFusion::Ptr laneProc_;
-    StaticElements::Ptr newestWallPillars_ = nullptr;
+            std::string vehicleModel;
+            Fusion::veh_params vehicleParams;
 
-    std::string vehicleModel;
-    Fusion::veh_params vehicleParams;
+            StaiticElementsMsg sbStaticElement;
+            StaiticElementsMsg otherStaticElement;
+            StaiticElementsMsg sumStaticElement;
 
-    StaiticElementsMsg sbStaticElement;
-    StaiticElementsMsg otherStaticElement;
-    StaiticElementsMsg sumStaticElement;
-
-
-    bool slotSwitch = true;
-    bool speedBumpSwitch = true;
-    bool arrowSwitch = true;
-    bool laneSwitch = true;
-    bool ZebraSwitch = true;
-    bool wallPillarSwitch = true;
-};
-}
+            bool slotSwitch = true;
+            bool speedBumpSwitch = true;
+            bool arrowSwitch = true;
+            bool laneSwitch = true;
+            bool ZebraSwitch = true;
+            bool wallPillarSwitch = true;
+        };
+    }
 }
 #endif

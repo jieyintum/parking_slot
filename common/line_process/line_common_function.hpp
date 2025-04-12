@@ -5,13 +5,15 @@
 #include "trackLine.h"
 #include "line_math_function.hpp"
 namespace Fusion
-{   
+{
     inline bool isPointInsideSlot(
         const std::array<Fusion::CTrackLine::Ptr, 4U> lines,
         const Eigen::Vector3d point)
     {
-        for(int8_t i = 0; i < 4U; i++) {
-            if(lines[i]->isPointOnRightSideOfUnitVector(point)) {
+        for (int8_t i = 0; i < 4U; i++)
+        {
+            if (lines[i]->isPointOnRightSideOfUnitVector(point))
+            {
                 return false;
             }
         }
@@ -26,7 +28,7 @@ namespace Fusion
     // //! @return cosine-value in [-1,1]
     // //! @author  yij7szh
     // //---------------------------------------------------------------------
-    inline float calcCosAngleBetweenTwoUnitVectors(const Eigen::Vector3d& f_unitVecA_vf32, const Eigen::Vector3d& f_unitVecB_vf32)
+    inline float calcCosAngleBetweenTwoUnitVectors(const Eigen::Vector3d &f_unitVecA_vf32, const Eigen::Vector3d &f_unitVecB_vf32)
     {
         // u1,u2 are two unit vectors, therefore:
         // dot(u1,u2) = |u1| * |u2| cos(angle(u1,u2)) = cos(angle(u1,u1))
@@ -52,23 +54,21 @@ namespace Fusion
         return dotProduct_f32;
     }
 
-
-    //from -pi to pi in Radian
-    //from UnitVectorA to UnitVectorB
-    //positive is in clockwise
+    // from -pi to pi in Radian
+    // from UnitVectorA to UnitVectorB
+    // positive is in clockwise
     inline float calAngleBetweenTwoUnitVector(
         const Eigen::Vector3d f_unitVectorA_vr,
         const Eigen::Vector3d f_unitVectorB_vr)
     {
-        float l_angle_f = //from 0 to pi
+        float l_angle_f = // from 0 to pi
             std::acos(calcCosAngleBetweenTwoUnitVectors(f_unitVectorA_vr, f_unitVectorB_vr));
 
         Eigen::Vector3d l_unitVectorATurn90InClockwise_v(-f_unitVectorA_vr[1], f_unitVectorA_vr[0], 0.0f);
-        if(isPositive(
-            calcCosAngleBetweenTwoUnitVectors(l_unitVectorATurn90InClockwise_v, f_unitVectorB_vr) )
-        )
+        if (isPositive(
+                calcCosAngleBetweenTwoUnitVectors(l_unitVectorATurn90InClockwise_v, f_unitVectorB_vr)))
         {
-            //do nothing   
+            // do nothing
         }
         else
         {
@@ -83,27 +83,23 @@ namespace Fusion
         const Eigen::Vector3d f_unitVectorB_vr)
     {
         float angleInRadian = calAngleBetweenTwoUnitVector(f_unitVectorA_vr, f_unitVectorB_vr);
-        return (float)(angleInRadian*180.0f)/M_PI;
+        return (float)(angleInRadian * 180.0f) / M_PI;
     }
-
 
     inline Eigen::Vector3d turnUnitVectorFor90DegreeInClockwiseInVehicleCoordinate(const Eigen::Vector3d f_unitVector_v)
     {
         Eigen::Vector3d l_returnUV(f_unitVector_v[1], -f_unitVector_v[0], 0.0f);
-        
+
         return l_returnUV;
     }
-
 
     inline Eigen::Vector3d turnUnitVectorFor90DegreeInAntiClockwiseInVehicleCoordinate(const Eigen::Vector3d f_unitVector_v)
     {
         Eigen::Vector3d l_returnUV(-f_unitVector_v[1], f_unitVector_v[0], 0.0f);
-        
+
         return l_returnUV;
     }
 
-
 }
-
 
 #endif /* LINE_COMMON_FUNCTION */

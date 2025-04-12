@@ -12,20 +12,23 @@
 #include "utils/fixed_size_deque.h"
 #include "inner_msg/fusion_road_edge.h"
 
-namespace Fusion {
+namespace Fusion
+{
 
-class FusionRoadedgeBuffer: public FixedSizeDeque<FusionRoadEdgeList::Ptr> {
-public:
-    static FusionRoadedgeBuffer& GetInstance() {
-        static FusionRoadedgeBuffer instance(10U);
-        return instance;
-    }
+    class FusionRoadedgeBuffer : public FixedSizeDeque<FusionRoadEdgeList::Ptr>
+    {
+    public:
+        static FusionRoadedgeBuffer &GetInstance()
+        {
+            static FusionRoadedgeBuffer instance(10U);
+            return instance;
+        }
 
-private:
-    FusionRoadedgeBuffer(const std::uint16_t fixedSize) : FixedSizeDeque<FusionRoadEdgeList::Ptr>(fixedSize) {}
-    FusionRoadedgeBuffer(FusionRoadedgeBuffer&) = delete;
-    FusionRoadedgeBuffer& operator= (const FusionRoadedgeBuffer&) = delete;
-};
+    private:
+        FusionRoadedgeBuffer(const std::uint16_t fixedSize) : FixedSizeDeque<FusionRoadEdgeList::Ptr>(fixedSize) {}
+        FusionRoadedgeBuffer(FusionRoadedgeBuffer &) = delete;
+        FusionRoadedgeBuffer &operator=(const FusionRoadedgeBuffer &) = delete;
+    };
 
 } // namespace Fusion
 

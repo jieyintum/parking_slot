@@ -3,12 +3,15 @@
 
 #include "utils/time_stamp.h"
 #include "inner_msgs/odometry.h"
-namespace Fusion {
-namespace PSE {
-struct FrameBase {
-    TimeStamp stamp;
-    Odometry poseOb;
-};
-}
+namespace Fusion
+{
+    namespace PSE
+    {
+        struct FrameBase
+        {
+            TimeStamp stamp;
+            Odometry poseOb;
+        };
+    }
 }
 #endif
